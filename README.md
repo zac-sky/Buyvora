@@ -4,12 +4,13 @@ Buyvora 是一个由个人独立开发的电商 Agent 项目。它的目标是�
 
 ## 当前进度
 
-当前版本是项目骨架（v0.1.0），已经包含：
+当前已完成工程基础和购物对话接口，已经包含：
 
 - Python 项目依赖配置
 - FastAPI 服务入口
 - 健康检查接口 `GET /health`
-- 第一个自动化测试
+- 购物对话接口 `POST /commerce/chat`（固定回复，尚未接入大模型）
+- 请求校验和自动化测试
 - 面向学习的迭代路线
 
 ## 本地运行
@@ -37,22 +38,17 @@ uv run pytest
 
 ## GitHub 提交方式
 
-首次关联 GitHub 仓库时，将下面的地址替换成你刚创建的仓库地址：
+仓库已关联 [zac-sky/Buyvora](https://github.com/zac-sky/Buyvora)，无需重复初始化。
+
+每次修改后先检查，再选择文件提交：
 
 ```powershell
-git init
-git add .
-git commit -m "chore: initialize Buyvora agent project"
-git branch -M main
-git remote add origin https://github.com/<your-name>/Buyvora.git
-git push -u origin main
-```
-
-后续每个阶段使用：
-
-```powershell
-git add .
+git status
+git diff
+git add app tests docs README.md .gitignore uv.lock
+git diff --cached
 git commit -m "feat: describe the completed change"
 git push
 ```
 
+`commit` 记录本地版本，`push` 上传 GitHub。逐步讲解和练习见 [第 1 课：对话接口与 Git](docs/01-chat-and-git.md)。
