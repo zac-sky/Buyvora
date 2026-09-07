@@ -1,0 +1,20 @@
+[project]
+name = "buyvora-agent"
+version = "0.1.0"
+description = "Buyvora 电商 Agent：面向真实购物场景的智能购物助手"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28",
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

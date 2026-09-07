@@ -1,0 +1,2 @@
+"""Buyvora application package."""
+

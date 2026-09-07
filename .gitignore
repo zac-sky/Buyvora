@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+.DS_Store
+
+# Local runtime data
+data/
+logs/
+
+# Frontend dependencies/build output (reserved for a later step)
+node_modules/
+frontend/dist/
+
