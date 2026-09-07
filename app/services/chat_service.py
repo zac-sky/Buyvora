@@ -1,7 +1,14 @@
-"""Application logic for the first, deterministic shopping conversation flow."""
+"""Composition root for the shopping agent; no fixed-reply fallback."""
+
+from app.agent.model import ChatModel, CompatibleChatModel
+from app.agent.shopping import ShoppingAgent
+from app.agent.tools import ShoppingTools
+from app.catalog_seed import demo_catalog
+from app.repositories.catalog import InMemoryCatalogRepository
+from app.services.catalog_service import CatalogService
+from app.settings import Settings
 
 
-def build_shopping_reply(message: str) -> str:
-    """Return a transparent placeholder reply until the LLM agent is introduced."""
-    cleaned_message = message.strip()
-    return f"我收到了你的购物需求：{cleaned_message}。下一步我会帮你分析商品类型和筛选条件。"
+def build_shopping_agent(settings: Settings, model: ChatModel | None = None) -> ShoppingAgent:
+    catalog = CatalogService(InMemoryCatalogRepository(demo_catalog()))
+    return ShoppingAgent(model or CompatibleChatModel(settings), ShoppingTools(catalog), settings)

@@ -4,12 +4,13 @@ Buyvora 是一个由个人独立开发的电商 Agent 项目。它的目标是�
 
 ## 当前进度
 
-当前已完成工程基础、购物对话接口和商品搜索，已经包含：
+当前已实现工程基础、商品搜索与模型工具调用，真实模型联调待配置后验证：
 
 - Python 项目依赖配置
 - FastAPI 服务入口
 - 健康检查接口 `GET /health`
-- 购物对话接口 `POST /commerce/chat`（固定回复，尚未接入大模型）
+- 购物对话接口 `POST /commerce/chat`，接入可配置的 Chat Completions 兼容模型
+- 商品搜索 / 详情工具、调用限制、可查看的工具记录与内存多轮会话
 - 商品 / SKU / 金额模型与 6 款虚构演示商品
 - 商品搜索与详情接口（关键词、预算、库存、分页）
 - 请求校验和自动化测试
@@ -19,6 +20,7 @@ Buyvora 是一个由个人独立开发的电商 Agent 项目。它的目标是�
 
 ```powershell
 uv sync --locked
+# 购物对话需要先复制 .env.example 为 .env，填入模型配置
 uv run uvicorn app.main:app --reload
 ```
 
@@ -40,11 +42,14 @@ uv run pytest
 
 - `GET /commerce/products?q=耳机&max_price=300`：搜索 300 元以内有库存的耳机。
 - `GET /commerce/products/demo-headphones-01`：查看商品的全部规格。
-- `POST /commerce/chat`：验证购物请求收发，目前仍为固定回复。
+- `POST /commerce/chat`：模型根据需求调用商品工具并组织回复；首次请求不传 session_id。
+- `GET /ready`：查看模型配置是否齐全（不代表已经连通模型服务）。
 
-商品、价格和库存均为虚构演示数据。搜索返回 `source: "demo"`，金额以整数分表示，搜索预算参数以元表示。当前没有真实商家、模型调用或订单执行。
+商品、价格和库存均为虚构演示数据。搜索返回 `source: "demo"`，金额以整数分表示，搜索预算参数以元表示。当前没有真实商家或订单执行。模型调用需要本地配置，未配置时明确返回 503。会话仅在单进程内存中保存，尚未提供账号鉴权，不宜直接公开部署。
 
-学习笔记：[第 1 课：对话与 Git](docs/01-chat-and-git.md) · [第 2 课：商品与搜索](docs/02-catalog.md)。
+学习笔记：[第 1 课：对话与 Git](docs/01-chat-and-git.md) · [第 2 课：商品与搜索](docs/02-catalog.md) · [第 3 课：Agent 与工具](docs/03-agent-and-tools.md)。
+
+验证：`uv run pytest -q`；协议闭环：`uv run python scripts/smoke_agent.py`；配置真实模型后：`uv run python scripts/smoke_agent.py --live`。后者会消耗模型额度。[实际验证记录](docs/verification.md)。
 
 ## 项目路线
 
