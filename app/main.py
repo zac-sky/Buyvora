@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.routes.catalog import router as catalog_router
 from app.schemas import ChatRequest, ChatResponse
 from app.services.chat_service import build_shopping_reply
 
@@ -9,6 +10,8 @@ app = FastAPI(
     description="A personal e-commerce agent project.",
     version="0.1.0",
 )
+
+app.include_router(catalog_router)
 
 
 @app.get("/health")
