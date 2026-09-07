@@ -14,6 +14,7 @@ Buyvora 是一个由个人独立开发的电商 Agent 项目。它的目标是�
 - 商品 / SKU / 金额模型与 6 款虚构演示商品
 - 商品搜索与详情接口（关键词、预算、库存、分页）
 - 请求校验和自动化测试
+- GitHub Actions：Linux / Windows、Python 3.11–3.13 自动测试与 HTTP 协议验证
 - 面向学习的迭代路线
 
 ## 本地运行
@@ -54,6 +55,10 @@ uv run pytest
 ## 项目路线
 
 详细的学习和开发步骤见 [docs/learning-roadmap.md](docs/learning-roadmap.md)。每完成一个小阶段，就进行一次独立提交，让项目进展和学习成果都能在 GitHub 中清晰呈现。
+
+## 自动检查
+
+每次推送后可在 [Actions](https://github.com/zac-sky/Buyvora/actions) 查看对应提交的 Tests。详情见[GitHub 自动检查学习笔记](docs/03b-github-actions.md)。自动检查不调用真实模型。
 
 ## GitHub 提交方式
 
