@@ -18,12 +18,23 @@ class Settings(BaseModel):
     session_ttl_seconds: int = Field(default=1800, ge=60, le=86400)
     session_capacity: int = Field(default=128, ge=1, le=1000)
 
-    @field_validator("llm_base_url", "llm_model", mode="before")
+    embedding_base_url: str = ""
+    embedding_api_key: SecretStr = SecretStr("")
+    embedding_model: str = ""
+    reranker_base_url: str = ""
+    reranker_api_key: SecretStr = SecretStr("")
+    reranker_model: str = ""
+    retrieval_timeout_seconds: float = Field(default=15, ge=1, le=60, allow_inf_nan=False)
+    retrieval_top_n: int = Field(default=30, ge=1, le=100)
+    retrieval_min_similarity: float = Field(default=0.25, ge=-1, le=1, allow_inf_nan=False)
+
+    @field_validator("llm_base_url", "llm_model", "embedding_base_url", "embedding_model",
+                     "reranker_base_url", "reranker_model", mode="before")
     @classmethod
     def strip_text(cls, value: object) -> object:
         return value.strip() if isinstance(value, str) else value
 
-    @field_validator("llm_base_url")
+    @field_validator("llm_base_url", "embedding_base_url", "reranker_base_url")
     @classmethod
     def valid_base_url(cls, value: str) -> str:
         if not value:
@@ -36,6 +47,12 @@ class Settings(BaseModel):
                 or (parsed.scheme == "http" and not local)):
             raise ValueError("Use HTTPS, or HTTP for a loopback model server")
         return value.rstrip("/")
+
+    def provider_configured(self, prefix: str) -> bool:
+        base_url = getattr(self, prefix + "_base_url")
+        key = getattr(self, prefix + "_api_key").get_secret_value().strip()
+        local = urlsplit(base_url).hostname in {"localhost", "127.0.0.1", "::1"}
+        return bool(base_url and getattr(self, prefix + "_model") and (key or local))
 
     @property
     def configured(self) -> bool:

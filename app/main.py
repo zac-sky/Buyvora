@@ -6,6 +6,7 @@ from pydantic import ValidationError
 
 from app.agent.errors import AgentError
 from app.agent.model import ChatModel
+from app.retrieval.composition import build_search_services
 from app.routes.catalog import router as catalog_router
 from app.schemas import ChatRequest, ChatResponse
 from app.services.chat_service import build_shopping_agent
@@ -13,7 +14,7 @@ from app.settings import Settings, load_settings
 
 
 def create_app(settings: Settings | None = None, model: ChatModel | None = None) -> FastAPI:
-    application = FastAPI(title="Buyvora Agent", description="A personal e-commerce agent project.", version="0.2.0")
+    application = FastAPI(title="Buyvora Agent", description="A personal e-commerce agent project.", version="0.3.0")
     application.include_router(catalog_router)
     configuration_error = False
     try:
@@ -21,7 +22,8 @@ def create_app(settings: Settings | None = None, model: ChatModel | None = None)
     except (ValidationError, OSError, ValueError):
         configuration = Settings()
         configuration_error = True
-    agent = build_shopping_agent(configuration, model) if configuration.configured or model is not None else None
+    application.state.search_services = build_search_services(configuration)
+    agent = build_shopping_agent(configuration, model, application.state.search_services) if configuration.configured or model is not None else None
 
     @application.exception_handler(AgentError)
     async def agent_error_handler(request: Request, error: AgentError) -> JSONResponse:
@@ -36,7 +38,9 @@ def create_app(settings: Settings | None = None, model: ChatModel | None = None)
     async def ready() -> dict:
         return {"model_configured": agent is not None,
                 "configuration_valid": not configuration_error,
-                "catalog_source": "demo", "session_storage": "memory"}
+                "catalog_source": "demo", "session_storage": "memory",
+                "embedding_configured": configuration.provider_configured("embedding"),
+                "reranker_configured": configuration.provider_configured("reranker")}
 
     @application.post("/commerce/chat", response_model=ChatResponse)
     async def chat(request: ChatRequest) -> ChatResponse:

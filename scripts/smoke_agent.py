@@ -16,6 +16,7 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+from urllib.parse import urlencode
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -100,7 +101,9 @@ def main():
             env.update(LLM_BASE_URL=f"http://127.0.0.1:{fixture.server_port}/v1",
                        LLM_MODEL="scripted-protocol-fixture", LLM_API_KEY="",
                        LLM_TIMEOUT_SECONDS="10", AGENT_MAX_MODEL_CALLS="5", AGENT_MAX_TOOL_CALLS="8",
-                       SESSION_TTL_SECONDS="1800", SESSION_CAPACITY="128")
+                       SESSION_TTL_SECONDS="1800", SESSION_CAPACITY="128",
+                       EMBEDDING_BASE_URL="", EMBEDDING_MODEL="", EMBEDDING_API_KEY="",
+                       RERANKER_BASE_URL="", RERANKER_MODEL="", RERANKER_API_KEY="")
         with socket.socket() as sock:
             sock.bind(("127.0.0.1", 0))
             port = sock.getsockname()[1]
@@ -130,9 +133,17 @@ def main():
         assert first["session_id"] == second["session_id"]
         if not args.live:
             assert len(first["products"]) == 2 and len(second["products"]) == 1
+            search = http_json(base, "/commerce/products?" + urlencode({
+                "q":"日常使用的蓝牙耳机", "search_mode":"semantic", "sku_name":"白色", "max_price":"200"}))
+            assert search["retrieval"]["strategy"] == "keyword_2gram"
+            assert search["retrieval"]["fallback_reason"] == "embedding_not_configured"
+            assert [p["id"] for p in search["items"]] == ["demo-headphones-02"]
+            guidance = http_json(base, "/commerce/knowledge?" + urlencode({"q":"扩展坞 USB-C 接口", "limit":1}))
+            assert guidance["items"][0]["source"] == "knowledge/hubs.md"
         print(json.dumps({"mode": "live-model" if args.live else "scripted-protocol-fixture",
                           "status": "passed", "turns": 2,
-                          "product_counts": [len(first["products"]), len(second["products"])]}))
+                          "product_counts": [len(first["products"]), len(second["products"])],
+                          "retrieval_http_verified": not args.live}))
     finally:
         if process is not None:
             process.terminate()

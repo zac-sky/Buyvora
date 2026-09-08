@@ -1,0 +1,395 @@
+{
+  "generated_at": "2026-09-08T02:16:26.664161+00:00",
+  "k": 3,
+  "mode": "local-lexical-fallback",
+  "reranker_requested": false,
+  "variants": {
+    "keyword": {
+      "metrics": {
+        "recall_at_k": 0.25,
+        "mrr_at_k": 0.25,
+        "negative_accuracy": 1.0,
+        "constraint_violations": 0,
+        "positive_cases": 12,
+        "negative_cases": 5
+      },
+      "cases": [
+        {
+          "id": "headphones-exact",
+          "expected": [
+            "demo-headphones-01",
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02",
+            "demo-headphones-01"
+          ],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "commute-sentence",
+          "expected": [
+            "demo-headphones-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "budget-headphones",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "keyboard-sentence",
+          "expected": [
+            "demo-keyboard-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "red-switch",
+          "expected": [
+            "demo-keyboard-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "wireless-mouse",
+          "expected": [
+            "demo-mouse-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "hub-include-soldout",
+          "expected": [
+            "demo-hub-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "monitor-sentence",
+          "expected": [
+            "demo-monitor-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "white-in-stock",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02"
+          ],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "anc-under-budget",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "hub-soldout",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "unrelated-query",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "zero-budget",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "category-mismatch",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "semantic-challenge",
+          "expected": [
+            "demo-headphones-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "english-mouse",
+          "expected": [
+            "demo-mouse-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "exact-minor-unit",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02"
+          ],
+          "strategy": "keyword",
+          "fallback_reason": null,
+          "violations": []
+        }
+      ]
+    },
+    "semantic": {
+      "metrics": {
+        "recall_at_k": 0.9166666666666666,
+        "mrr_at_k": 0.875,
+        "negative_accuracy": 1.0,
+        "constraint_violations": 0,
+        "positive_cases": 12,
+        "negative_cases": 5
+      },
+      "cases": [
+        {
+          "id": "headphones-exact",
+          "expected": [
+            "demo-headphones-01",
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02",
+            "demo-headphones-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "commute-sentence",
+          "expected": [
+            "demo-headphones-01"
+          ],
+          "retrieved": [
+            "demo-headphones-02",
+            "demo-headphones-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "budget-headphones",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "keyboard-sentence",
+          "expected": [
+            "demo-keyboard-01"
+          ],
+          "retrieved": [
+            "demo-keyboard-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "red-switch",
+          "expected": [
+            "demo-keyboard-01"
+          ],
+          "retrieved": [
+            "demo-keyboard-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "wireless-mouse",
+          "expected": [
+            "demo-mouse-01"
+          ],
+          "retrieved": [
+            "demo-mouse-01",
+            "demo-headphones-02",
+            "demo-monitor-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "hub-include-soldout",
+          "expected": [
+            "demo-hub-01"
+          ],
+          "retrieved": [
+            "demo-hub-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "monitor-sentence",
+          "expected": [
+            "demo-monitor-01"
+          ],
+          "retrieved": [
+            "demo-monitor-01",
+            "demo-mouse-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "white-in-stock",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "anc-under-budget",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "hub-soldout",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "unrelated-query",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "zero-budget",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": null,
+          "violations": []
+        },
+        {
+          "id": "category-mismatch",
+          "expected": [],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "semantic-challenge",
+          "expected": [
+            "demo-headphones-01"
+          ],
+          "retrieved": [],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "english-mouse",
+          "expected": [
+            "demo-mouse-01"
+          ],
+          "retrieved": [
+            "demo-mouse-01"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        },
+        {
+          "id": "exact-minor-unit",
+          "expected": [
+            "demo-headphones-02"
+          ],
+          "retrieved": [
+            "demo-headphones-02"
+          ],
+          "strategy": "keyword_2gram",
+          "fallback_reason": "embedding_not_configured",
+          "violations": []
+        }
+      ]
+    }
+  },
+  "checks": {
+    "recall": true,
+    "mrr": true,
+    "negative_accuracy": true,
+    "no_constraint_violations": true,
+    "keyword_gain": true
+  }
+}

@@ -47,3 +47,5 @@ jobs:
         run: uv run --locked pytest -q
       - name: Verify two-turn HTTP agent flow
         run: uv run --locked python scripts/smoke_agent.py
+      - name: Check retrieval quality and commerce constraints
+        run: uv run --locked python scripts/eval_retrieval.py --check

@@ -2,31 +2,38 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 
-from app.catalog_seed import demo_catalog
 from app.domain.catalog import Product
-from app.repositories.catalog import InMemoryCatalogRepository
+from app.services.catalog_retrieval import CatalogRetrieval
+from app.services.knowledge_service import KnowledgeQuery, KnowledgeResult, KnowledgeService
 from app.services.catalog_service import CatalogQuery, CatalogResult, CatalogService
 
-router = APIRouter(prefix="/commerce/products", tags=["catalog"])
-_catalog_service = CatalogService(InMemoryCatalogRepository(demo_catalog()))
+router = APIRouter(prefix="/commerce", tags=["catalog"])
 
 
-def get_catalog_service() -> CatalogService:
-    return _catalog_service
+def get_catalog_service(request: Request) -> CatalogService:
+    return request.app.state.search_services.catalog
 
 
-@router.get("", response_model=CatalogResult)
-def search_products(
+def get_catalog_retrieval(request: Request) -> CatalogRetrieval:
+    return request.app.state.search_services.products
+
+
+def get_knowledge_service(request: Request) -> KnowledgeService:
+    return request.app.state.search_services.knowledge
+
+
+@router.get("/products", response_model=CatalogResult)
+async def search_products(
     query: Annotated[CatalogQuery, Query()],
-    service: Annotated[CatalogService, Depends(get_catalog_service)],
+    service: Annotated[CatalogRetrieval, Depends(get_catalog_retrieval)],
 ) -> CatalogResult:
     """Search demo products. Prices are CNY yuan; only matching SKUs are returned."""
-    return service.search(query)
+    return await service.search(query)
 
 
-@router.get("/{product_id}", response_model=Product)
+@router.get("/products/{product_id}", response_model=Product)
 def get_product(
     product_id: str,
     service: Annotated[CatalogService, Depends(get_catalog_service)],
@@ -36,3 +43,11 @@ def get_product(
     if product is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
+
+@router.get("/knowledge", response_model=KnowledgeResult)
+async def search_knowledge(
+    query: Annotated[KnowledgeQuery, Query()],
+    service: Annotated[KnowledgeService, Depends(get_knowledge_service)],
+) -> KnowledgeResult:
+    return await service.search(query)

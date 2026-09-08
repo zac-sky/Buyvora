@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 from app.agent.tools import ShoppingTools
@@ -9,7 +11,7 @@ from tests.fakes import tool_reply
 
 def execute(name="search_products", arguments="{}"):
     tools = ShoppingTools(CatalogService(InMemoryCatalogRepository(demo_catalog())))
-    return tools.execute(tool_reply(name=name, arguments=arguments).tool_calls[0])
+    return asyncio.run(tools.execute(tool_reply(name=name, arguments=arguments).tool_calls[0]))
 
 
 @pytest.mark.parametrize("arguments", ['not json', '[]', 'null', '{"max_price":-1}',

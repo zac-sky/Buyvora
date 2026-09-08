@@ -28,7 +28,7 @@ def test_chat_runs_model_tool_model_loop() -> None:
     assert tool_message["role"] == "tool"
     assert tool_message["tool_call_id"] == "call-1"
     assert json.loads(tool_message["content"])["total"] == 2
-    assert {t["function"]["name"] for t in model.requests[0]["tools"]} == {"search_products", "get_product"}
+    assert {t["function"]["name"] for t in model.requests[0]["tools"]} == {"search_products", "get_product", "search_knowledge"}
 
 
 def test_chat_normalizes_and_continues_server_issued_session() -> None:
@@ -142,3 +142,18 @@ def test_history_trimming_preserves_complete_tool_turns() -> None:
     calls = {call["id"] for m in messages for call in m.get("tool_calls", [])}
     results = {m["tool_call_id"] for m in messages if m["role"] == "tool"}
     assert calls == results
+
+
+def test_agent_receives_knowledge_source_before_generating_guidance():
+    client, model = client_with(
+        tool_reply(name="search_knowledge", arguments='{"q":"耳机通勤降噪","limit":1}'),
+        ModelReply(content="选购时先确认降噪需求。[headphones:001]"),
+    )
+    response = client.post("/commerce/chat", json={"message":"通勤耳机怎么选？"})
+    assert response.status_code == 200
+    result = response.json()["tool_calls"][0]["result"]
+    assert result["items"][0]["source"] == "knowledge/headphones.md"
+    assert result["items"][0]["id"] == "headphones:001"
+    tool_message = json.loads(model.requests[1]["messages"][-1]["content"])
+    assert tool_message["items"][0]["text"] == result["items"][0]["text"]
+    assert response.json()["products"] == []

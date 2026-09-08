@@ -1,0 +1,167 @@
+{
+  "description": "Hand-authored demo catalog relevance cases; semantic-challenge deliberately requires a paraphrase beyond lexical overlap.",
+  "k": 3,
+  "gates": {
+    "min_recall": 0.8,
+    "min_mrr": 0.7,
+    "min_negative_accuracy": 1.0,
+    "min_keyword_recall_gain": 0.1
+  },
+  "cases": [
+    {
+      "id": "headphones-exact",
+      "query": {
+        "q": "耳机"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-01",
+        "demo-headphones-02"
+      ]
+    },
+    {
+      "id": "commute-sentence",
+      "query": {
+        "q": "通勤用的蓝牙耳机"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-01"
+      ]
+    },
+    {
+      "id": "budget-headphones",
+      "query": {
+        "q": "日常通话用的耳机",
+        "max_price": "200"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-02"
+      ]
+    },
+    {
+      "id": "keyboard-sentence",
+      "query": {
+        "q": "我想要机械键盘",
+        "category": "keyboards"
+      },
+      "relevant_product_ids": [
+        "demo-keyboard-01"
+      ]
+    },
+    {
+      "id": "red-switch",
+      "query": {
+        "q": "适合办公的机械键盘",
+        "sku_name": "红轴",
+        "max_price": "250"
+      },
+      "relevant_product_ids": [
+        "demo-keyboard-01"
+      ]
+    },
+    {
+      "id": "wireless-mouse",
+      "query": {
+        "q": "移动办公用的无线鼠标"
+      },
+      "relevant_product_ids": [
+        "demo-mouse-01"
+      ]
+    },
+    {
+      "id": "hub-include-soldout",
+      "query": {
+        "q": "USB-C接口的扩展坞",
+        "in_stock": false
+      },
+      "relevant_product_ids": [
+        "demo-hub-01"
+      ]
+    },
+    {
+      "id": "monitor-sentence",
+      "query": {
+        "q": "办公编程用的显示器"
+      },
+      "relevant_product_ids": [
+        "demo-monitor-01"
+      ]
+    },
+    {
+      "id": "white-in-stock",
+      "query": {
+        "q": "耳机",
+        "sku_name": "白色"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-02"
+      ]
+    },
+    {
+      "id": "anc-under-budget",
+      "query": {
+        "q": "降噪",
+        "max_price": "200"
+      },
+      "relevant_product_ids": []
+    },
+    {
+      "id": "hub-soldout",
+      "query": {
+        "q": "扩展坞"
+      },
+      "relevant_product_ids": []
+    },
+    {
+      "id": "unrelated-query",
+      "query": {
+        "q": "火星潜艇"
+      },
+      "relevant_product_ids": []
+    },
+    {
+      "id": "zero-budget",
+      "query": {
+        "q": "耳机",
+        "max_price": "0"
+      },
+      "relevant_product_ids": []
+    },
+    {
+      "id": "category-mismatch",
+      "query": {
+        "q": "耳机",
+        "category": "keyboards"
+      },
+      "relevant_product_ids": []
+    },
+    {
+      "id": "semantic-challenge",
+      "query": {
+        "q": "地铁里隔绝噪声"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-01"
+      ]
+    },
+    {
+      "id": "english-mouse",
+      "query": {
+        "q": "wireless mouse"
+      },
+      "relevant_product_ids": [
+        "demo-mouse-01"
+      ]
+    },
+    {
+      "id": "exact-minor-unit",
+      "query": {
+        "q": "耳机",
+        "min_price": "159.90",
+        "max_price": "159.90"
+      },
+      "relevant_product_ids": [
+        "demo-headphones-02"
+      ]
+    }
+  ]
+}
